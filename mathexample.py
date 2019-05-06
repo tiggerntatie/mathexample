@@ -29,7 +29,7 @@ class VectorMagnitudeExample:
         self.answer = float(input("Enter your answer: "))
         
     def userInteract(self):
-        while not answer or answer != correctAnswer:
+        while not self.answer or self.answer != self.correctAnswer:
             self.showQuestion()
             self.getUserAnswer()
             self.generateRandomQuestion()
