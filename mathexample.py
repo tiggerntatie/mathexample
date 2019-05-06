@@ -2,6 +2,7 @@
 from browser import window
 from random import randint
 from math import sqrt
+from ggame import App
 
 
 class VectorMagnitudeExample:
@@ -34,9 +35,10 @@ class VectorMagnitudeExample:
             self.getUserAnswer()
             self.generateRandomQuestion()
         
-        
 
 if __name__ == "__main__":
+    myapp = App()
+    myapp.run()
     ex = VectorMagnitudeExample()
     ex.userInteract()
     
