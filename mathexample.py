@@ -12,6 +12,8 @@ class VectorMagnitudeExample:
     def __init__(self):
         self.answer = None
         self.generateRandomQuestion()
+        self.parametersigfigs = 2
+        self.answersigfigs = 2
     
     def generateRandomQuestion(self):
         self.a = randint(2,8)
