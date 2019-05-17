@@ -35,8 +35,11 @@ class VectorMagnitudeExample(App):
         print(self.question.format(self.a, self.b, self.c))
         
     def getUserAnswer(self):
-        self.answer = float(input("Enter your answer: "))
-    
+        try:
+            self.answer = float(input("Enter your answer: "))
+        except ValueError:
+            self.answer = None
+        
     def showAnswer(self):
         print("Your answer is: ", self.answer)
         print("The correct answer is: ", self.correctAnswer)
@@ -61,7 +64,9 @@ class VectorMagnitudeExample(App):
             self.line = "input"
         elif self.line == "input":
             self.getUserAnswer()
-            if self.correctAnswer.equivalent_to_float(self.answer):
+            if self.answer is None:
+                self.line = "quit"
+            elif self.correctAnswer.equivalent_to_float(self.answer):
                 self.line = "correct"
             else:
                 self.line = "incorrect"
@@ -74,6 +79,9 @@ class VectorMagnitudeExample(App):
             print("The correct answer is {0}.".format(self.correctAnswer))
             print("Try again!")
             self.line = "start"
+        elif self.line == "quit":
+            print("See you later!")
+            self.line = "finished"
             
 
 if __name__ == "__main__":
