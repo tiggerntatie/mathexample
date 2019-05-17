@@ -1,7 +1,7 @@
 # mathexample
 import sys
 sffloatpath = "https://tiggerntatie.github.io/sffloat/"
-if newpath not in sys.path:
+if sffloatpath not in sys.path:
     sys.path.append(sffloatpath)
 
 from browser import window
