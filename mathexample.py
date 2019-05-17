@@ -10,13 +10,15 @@ from random import randint
 from ggame import App
 
 
-class VectorMagnitudeExample:
+class VectorMagnitudeExample(App):
     
     question = "Compute the magnitude of this vector: <{0},{1},{2}>."
     
     def __init__(self):
         self.answer = None
         self.paramsf = 2
+        super().__init__()
+        self.line = "start"
         #self.generateRandomQuestion()
 
     def generateRandomQuestion(self):
@@ -34,20 +36,48 @@ class VectorMagnitudeExample:
         
     def getUserAnswer(self):
         self.answer = float(input("Enter your answer: "))
+    
+    def showAnswer(self):
+        print("Your answer is: ", self.answer)
+        print("The correct answer is: ", self.correctAnswer)
         
     def userInteract(self):
         while not self.answer or not self.correctAnswer.equivalent_to_float(self.answer):
             self.generateRandomQuestion()
             self.showQuestion()
             self.getUserAnswer()
-            print("self.answer: ", self.answer)
-            print("self.correctAnswer: ", self.correctAnswer)
-        
+    
+        self.actions = [
+            self.generateRandomQuestion,
+            self.showQuestion,
+            self.getUserAnswer,
+            self.showAnswer]
+        self.x = 0
+
+    def step(self):
+        if self.line == "start":
+            self.generateRandomQuestion()
+            self.showQuestion()
+        elif: self.line == "input":
+            self.getUserAnswer()
+            if self.correctAnswer.equivalent_to_float(self.answer):
+                self.line = "correct"
+            else:
+                self.line = "incorrect"
+            return
+        elif: self.line == "correct":
+            print("Awesome! {0} is the correct answer.".format(self.correctAnswer))
+            self.line = "finished"
+        elif: self.line == "incorrect":
+            print("I'm sorry. You answered {0}.".format(self.answer))
+            print("The correct answer is {0}.".format(self.correctAnswer))
+            print("Try again!")
+            self.line = "start"
+            
 
 if __name__ == "__main__":
-    myapp = App()
+    myapp = VectorMagnitudeExample()
     myapp.run()
-    ex = VectorMagnitudeExample()
-    ex.userInteract()
+    #myapp.userInteract()
     
     
