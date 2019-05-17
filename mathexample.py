@@ -33,7 +33,7 @@ class VectorMagnitudeExample:
         print(self.question.format(self.a, self.b, self.c))
         
     def getUserAnswer(self):
-        self.answer = sffloat(float(input("Enter your answer: ")))
+        self.answer = float(input("Enter your answer: "))
         
     def userInteract(self):
         while not self.answer or not self.correctAnswer.equivalent_to_float(self.answer):
