@@ -58,6 +58,7 @@ class VectorMagnitudeExample(App):
         if self.line == "start":
             self.generateRandomQuestion()
             self.showQuestion()
+            self.line = "input"
         elif self.line == "input":
             self.getUserAnswer()
             if self.correctAnswer.equivalent_to_float(self.answer):
