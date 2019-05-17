@@ -17,7 +17,7 @@ class VectorMagnitudeExample:
     def __init__(self):
         self.answer = None
         self.paramsf = 2
-        self.generateRandomQuestion()
+        #self.generateRandomQuestion()
 
     def generateRandomQuestion(self):
         self.a = sffloat(randint(2,8), self.paramsf)
@@ -37,9 +37,11 @@ class VectorMagnitudeExample:
         
     def userInteract(self):
         while not self.answer or not self.correctAnswer.equivalent_to_float(self.answer):
+            self.generateRandomQuestion()
             self.showQuestion()
             self.getUserAnswer()
-            self.generateRandomQuestion()
+            print("self.answer: ", self.answer)
+            print("self.correctAnswer: ", self.correctAnswer)
         
 
 if __name__ == "__main__":
