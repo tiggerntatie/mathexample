@@ -13,6 +13,7 @@ from ggame import App
 class VectorMagnitudeExample(App):
     
     question = "Compute the magnitude of this vector: <{0},{1},{2}>."
+    ID = "VM01"
     
     def __init__(self):
         self.answer = None
