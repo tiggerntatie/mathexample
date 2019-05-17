@@ -4,10 +4,9 @@ sffloatpath = "https://tiggerntatie.github.io/sffloat/"
 if sffloatpath not in sys.path:
     sys.path.append(sffloatpath)
 
-from sffloat import sffloat
+from sffloat import sffloat, sqrt
 from browser import window
 from random import randint
-from math import sqrt
 from ggame import App
 
 
