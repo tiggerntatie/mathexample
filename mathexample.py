@@ -6,9 +6,9 @@ if sffloatpath not in sys.path:
 
 from sffloat import sffloat, sqrt
 from browser import window
-from random import randint
+from random import randint, seed
 from ggame import App
-
+from time import asctime, gmtime, now
 
 class VectorMagnitudeExample(App):
     
@@ -23,10 +23,15 @@ class VectorMagnitudeExample(App):
         #self.generateRandomQuestion()
 
     def generateRandomQuestion(self):
+        seedtime = now()
+        self.generateRandomParams(seedtime)
+
+    def generateRandomParams(self, ):
+        self.timestamp = asctime(gmtime(seedtime))
+        seed(seedtime)
         self.a = sffloat(randint(2,8), self.paramsf)
         self.b = sffloat(randint(2,8), self.paramsf)
         self.c = sffloat(randint(2,8), self.paramsf)
-        
     
     @property
     def correctAnswer(self):
