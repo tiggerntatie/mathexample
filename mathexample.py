@@ -38,12 +38,12 @@ class VectorMagnitudeExample(App):
 
     def generateRandomQuestion(self):
         seedtime = now()
-        self.generateRandomParams(seedtime)
+        self.generateRandomParams(str(seedtime))
 
 
-    def generateRandomParams(self, ):
-        self.timestamp = asctime(gmtime(seedtime))
-        seed(seedtime)
+    def generateRandomParams(self, seedstr):
+        self.timestamp = seedstr
+        seed(int(seedstr))
         self.a = sffloat(randint(2,8), self.paramsf)
         self.b = sffloat(randint(2,8), self.paramsf)
         self.c = sffloat(randint(2,8), self.paramsf)
