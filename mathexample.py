@@ -4,6 +4,7 @@ sffloatpath = "https://tiggerntatie.github.io/sffloat/"
 if sffloatpath not in sys.path:
     sys.path.append(sffloatpath)
 
+from sffloat import sffloat
 from browser import window
 from random import randint
 from math import sqrt
@@ -16,14 +17,13 @@ class VectorMagnitudeExample:
     
     def __init__(self):
         self.answer = None
+        self.paramsf = 2
         self.generateRandomQuestion()
-        self.parametersigfigs = 2
-        self.answersigfigs = 2
-    
+
     def generateRandomQuestion(self):
-        self.a = randint(2,8)
-        self.b = randint(2,8)
-        self.c = randint(2,8)
+        self.a = sffloat(randint(2,8), self.paramsf)
+        self.b = sffloat(randint(2,8), self.paramsf)
+        self.c = sffloat(randint(2,8), self.paramsf)
         
     
     @property
@@ -34,10 +34,10 @@ class VectorMagnitudeExample:
         print(self.question.format(self.a, self.b, self.c))
         
     def getUserAnswer(self):
-        self.answer = float(input("Enter your answer: "))
+        self.answer = sffloat(float(input("Enter your answer: ")))
         
     def userInteract(self):
-        while not self.answer or self.answer != self.correctAnswer:
+        while not self.answer or not self.correctAnswer.equivalent_to_float(self.answer):
             self.showQuestion()
             self.getUserAnswer()
             self.generateRandomQuestion()
