@@ -106,7 +106,7 @@ class VectorMagnitudeExample(App):
             print("I'm sorry. You answered {0}.".format(self.answer))
             print("The correct answer is {0}.".format(self.correctAnswer))
             print("Try again!")
-            self.line = "start"
+            self.line = "askquestion"
         elif self.line == "quit":
             print("See you later!")
             self.line = "finished"
