@@ -1,4 +1,9 @@
 # mathexample
+import sys
+sffloatpath = "https://tiggerntatie.github.io/sffloat/"
+if newpath not in sys.path:
+    sys.path.append(sffloatpath)
+
 from browser import window
 from random import randint
 from math import sqrt
