@@ -10,6 +10,20 @@ from random import randint, seed
 from ggame import App
 from time import asctime, gmtime, now
 
+"""
+m = hashlib.md5("what is up dog".encode('utf-8'))
+
+or
+
+m = hashlib.sha256("what is up dog".encode('utf-8'))
+
+
+>>> import base64
+>>> base64.b64encode(m.digest())
+b'gL+TIAkoFczEN0ZC4zlvbw=='
+"""
+
+
 class VectorMagnitudeExample(App):
     
     question = "Compute the magnitude of this vector: <{0},{1},{2}>."
@@ -25,6 +39,7 @@ class VectorMagnitudeExample(App):
     def generateRandomQuestion(self):
         seedtime = now()
         self.generateRandomParams(seedtime)
+
 
     def generateRandomParams(self, ):
         self.timestamp = asctime(gmtime(seedtime))
