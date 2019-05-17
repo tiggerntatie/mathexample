@@ -36,7 +36,8 @@ class VectorMagnitudeExample(App):
         
     def getUserAnswer(self):
         try:
-            self.answer = float(input("Enter your answer: "))
+            self.rawanswer = input("Enter your answer: ")
+            self.answer = float(self.rawanswer)
         except ValueError:
             self.answer = None
         
