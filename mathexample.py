@@ -35,6 +35,9 @@ class VectorMagnitudeExample(App):
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
         
+    def getUserEmail(self):
+        self.email = input("Enter your email name (without @hanovernorwichschools.org): ")
+        
     def getUserAnswer(self):
         try:
             self.rawanswer = input("Enter your answer: ")
@@ -61,6 +64,9 @@ class VectorMagnitudeExample(App):
 
     def step(self):
         if self.line == "start":
+            self.getUserEmail()
+            self.line = "askquestion"
+        elif self.line == "askquestion":
             self.generateRandomQuestion()
             self.showQuestion()
             self.line = "input"
