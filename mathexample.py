@@ -79,7 +79,7 @@ class MathExample(App, ABC):
                 self.score = -2
 
     def generateRandomQuestion(self):
-        time = now()
+        time = now() % 10000
         self.timestamp = str(time)
         seed(time)
         self.generateRandomParams()
