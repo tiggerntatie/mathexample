@@ -2,6 +2,8 @@
 import sys
 import hashlib
 import base64
+from abc import ABC, abstractmethod
+
 imports = [
     "https://tiggerntatie.github.io/sffloat/",
     ]
@@ -16,38 +18,48 @@ from ggame import App
 from time import asctime, gmtime, now
 
 
-class VectorMagnitudeExample(App):
+class MathExample(ABC, App):
     
-    question = "Compute the magnitude of this vector: <{0},{1},{2}>."
-    ID = "VM01"
-    
-    def __init__(self):
-        self.answer = None
-        self.paramsf = 2
-        super().__init__()
-        self.line = "start"
-
     def generateRandomQuestion(self):
         time = now()
         self.timestamp = str(time)
         seed(time)
         self.generateRandomParams()
+        
+    @abstractmethod
+    def generateRandomParams(self):
+        pass
 
-    # must override
+    @abstractmethod
+    @property
+    def correctAnswer(self):
+        pass
+
+    def getHash(self):
+        inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
+        m = hashlib.md5(inputstr.encode('utf-8'))
+        return m.hexdigest()        
+    
+
+class VectorMagnitudeExample(MathExample):
+    
+    question = "Compute the magnitude of this vector: <{0},{1},{2}>."
+    ID = "VM01"
+    
+"""    def __init__(self):
+        self.answer = None
+        self.paramsf = 2
+        super().__init__()
+        self.line = "start"
+"""
     def generateRandomParams(self):
         self.a = sffloat(randint(2,8), self.paramsf)
         self.b = sffloat(randint(2,8), self.paramsf)
         self.c = sffloat(randint(2,8), self.paramsf)
     
-    # must override
     @property
     def correctAnswer(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
-    
-    def getHash(self):
-        inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
-        m = hashlib.md5(inputstr.encode('utf-8'))
-        return m.hexdigest()        
     
     @property
     def successCode(self):
