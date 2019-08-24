@@ -1,5 +1,7 @@
 # mathexample
 import sys
+import hashlib
+import base64
 imports = [
     "https://tiggerntatie.github.io/sffloat/",
     ]
@@ -55,6 +57,10 @@ class VectorMagnitudeExample(App):
     def correctAnswer(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
         
+    @property
+    def successCode(self):
+        
+        
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
         
@@ -104,6 +110,7 @@ class VectorMagnitudeExample(App):
             return
         elif self.line == "correct":
             print("Awesome! {0} is the correct answer.".format(self.correctAnswer))
+            print("Your success code is {0}".format(self.successCode))
             self.line = "finished"
         elif self.line == "incorrect":
             print("I'm sorry. You answered {0}.".format(self.answer))
