@@ -55,7 +55,7 @@ class MathExample(App, ABC):
                 self.generateRandomQuestion()
                 self.score = 0
         elif self.score >= 0:
-            if self.levels[self.score].lquest:
+            if self.levels[self.score].lprompt:
                 if self._state == "prompt":
                     self.levels[self.score].lprompt()
                     self._state = "input"
