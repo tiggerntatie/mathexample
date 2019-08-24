@@ -69,7 +69,7 @@ class MathExample(App, ABC):
             self.answer = None
 
     def getHash(self):
-        inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
+        inputstr = self.ID + self.email + self.timestamp + str(self.levels[self.score].cfunc())
         m = hashlib.md5(inputstr.encode('utf-8'))
         return m.hexdigest()        
 
