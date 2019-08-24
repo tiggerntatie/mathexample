@@ -150,12 +150,6 @@ if __name__ == "__main__":
         
         def __init__(self):
             super().__init__()
-            self.questA2 = Question(
-                lambda : print("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
-                "First, what is the square of the first component?"),
-                self.getFloatAnswer,
-                lambda answer: self.correctA2().equivalent_to_float(answer)
-            )
             self.levels = {
                 0: Level(
                     self.promptA2, 
