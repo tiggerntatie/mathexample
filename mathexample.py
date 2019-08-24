@@ -8,7 +8,6 @@ for path in imports:
         sys.path.append(path)
 
 from sffloat import sffloat, sqrt
-from consoleapp import ConsoleApp, input
 from browser import window
 from random import randint, seed
 from ggame import App
