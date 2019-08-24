@@ -56,17 +56,28 @@ class VectorMagnitudeExample(App):
     @property
     def correctAnswer(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
-        
-    @property
-    def successCode(self):
+    
+    def getHash(self):
         inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
         m = hashlib.md5(inputstr.encode('utf-8'))
+        return m.hexdigest()        
+    
+    @property
+    def successCode(self):
         return "{0}:{1}:{2}:{3}".format(
             self.ID, 
             self.email, 
             self.timestamp, 
-            m.hexdigest()
+            self.getHash()
             )
+        
+    def verifySuccess(code):
+        self.generateRandomParams(code[2])
+        self.email = code[1]
+        if code[0] == self.ID and code[3] == self.getHash():
+            "VERIFIED"
+        else:
+            "NOT VERIFIED"
         
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
@@ -101,7 +112,12 @@ class VectorMagnitudeExample(App):
     def step(self):
         if self.line == "start":
             self.getUserEmail()
-            self.line = "askquestion"
+            checkval = self.email.split(':')
+            if len(checkval) == 4:
+                print(self.verifySuccess(checkval))
+                self.line = "finish"
+            else:
+                self.line = "askquestion"
         elif self.line == "askquestion":
             self.generateRandomQuestion()
             self.showQuestion()
