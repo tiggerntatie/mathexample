@@ -88,11 +88,12 @@ class MathExample(App, ABC):
         pass
 
     def getFloatAnswer(self):
+        self.rawanswer = None
         try:
-            self.rawanswer = input("Enter your answer: ")
-            return = float(self.rawanswer)
+            self.rawanswer = float(input("Enter your answer: "))
         except (ValueError, LookupError):
-            return None
+            pass
+        return self.rawanswer
 
     def getHash(self):
         inputstr = self.ID + self.email + str(self.score) + self.timestamp + str(self.levels[self.score].cfunc())
