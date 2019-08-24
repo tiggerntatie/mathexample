@@ -181,7 +181,7 @@ if __name__ == "__main__":
                     lambda answer: self.correctMag().equivalent_to_float(answer),
                     self.correctSum,
                     10),
-                10: Level(None, None, None self.correctMag, None),
+                10: Level(None, None, None, self.correctMag, None),
             }
     
         def generateRandomParams(self):
