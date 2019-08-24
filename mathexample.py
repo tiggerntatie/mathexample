@@ -36,8 +36,8 @@ class Question:
     def getinput(self):
         self._inputfunc()
         
-    def iscorrect(self):
-        return self._testfunc()
+    def iscorrect(self, answer):
+        return self._testfunc(answer)
 
 class MathExample(App, ABC):
 
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         def __init__(self):
             super().__init__()
             self.questA2 = Question(
-                lambda :("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
+                lambda : print("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
                 "First, what is the square of the first component?"),
                 self.getFloatAnswer,
                 lambda answer: self.correctA2().equivalent_to_float(answer)
@@ -185,12 +185,12 @@ if __name__ == "__main__":
         def correctMag(self):
             return sqrt(self.a**2 + self.b**2 + self.c**2)
     
-        def questA2(self):
+        """        def questA2(self):
             print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
             print("First, what is the square of the first component?")
             self.getFloatAnswer()
             return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
-    
+        """    
         def questB2(self):
             print("Good! And what is the square of the second component?")
             self.getFloatAnswer()
