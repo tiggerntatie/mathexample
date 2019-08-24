@@ -104,7 +104,7 @@ class MathExample(App, ABC):
             self.score = int(code[2])
             self.email = code[1]
             if code[0] == self.ID and code[4] == self.getHash():
-                print("VERIFIED")
+                print("VERIFIED: {0} points awarded to {1}".format(self.score, self.email))
             else:
                 print("NOT VERIFIED")
             return True
