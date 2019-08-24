@@ -82,7 +82,7 @@ class MathExample(App, ABC):
         code = self.isSuccessCode(self.email)
         if code:
             seed(int(code[2]))
-            self.generateRandomParams(code[2])
+            self.generateRandomParams()
             self.email = code[1]
             if code[0] == self.ID and code[3] == self.getHash():
                 print("VERIFIED")
