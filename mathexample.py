@@ -56,13 +56,14 @@ class MathExample(App, ABC):
                 self.score = 0
         elif self.score >= 0:
             if self.levels[self.score].lquest:
-                if self.state == "prompt":
+                if self._state == "prompt":
                     self.levels[self.score].lquest.prompt()
-                    self.state = "input"
-                elif self.state == "input":
+                    self._state = "input"
+                elif self._state == "input":
                     self.answer = self.levels[self.score].lquest.getinput()
-                    self.state = "eval"
-                elif self.state == "eval":
+                    self._state = "eval"
+                elif self._state == "eval":
+                    self._state = "prompt"
                     success = self.levels[self.score].lquest.iscorrect(self.answer)
                     if success:
                         self.score = self.levels[self.score].nextscore
