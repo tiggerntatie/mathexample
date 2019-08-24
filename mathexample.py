@@ -71,7 +71,7 @@ class VectorMagnitudeExample(App):
             self.getHash()
             )
         
-    def verifySuccess(code):
+    def verifySuccess(self, code):
         self.generateRandomParams(code[2])
         self.email = code[1]
         if code[0] == self.ID and code[3] == self.getHash():
