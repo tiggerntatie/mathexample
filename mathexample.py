@@ -108,7 +108,6 @@ class MathExample(App, ABC):
 
 class VectorMagnitudeExample(MathExample):
     
-    question = "Compute the magnitude of this vector: <{0},{1},{2}>."
     ID = "VM01"
     
     def __init__(self):
@@ -118,7 +117,7 @@ class VectorMagnitudeExample(MathExample):
             2: Level(self.questB2, self.correctA2, 4),
             4: Level(self.questC2, self.correctB2, 6),
             6: Level(self.questSum, self.correctC2, 8),
-            8: Level(self.questAll, self.correctSum, 10),
+            8: Level(self.questMag, self.correctSum, 10),
             10: Level(None, self.correctMag, None),
         }
 
@@ -164,7 +163,7 @@ class VectorMagnitudeExample(MathExample):
         return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
 
     def questMag(self):
-        print("Finally, what is the magnitude of the vector?")
+        print("Finally, what is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
         self.getFloatAnswer()
         return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
 
