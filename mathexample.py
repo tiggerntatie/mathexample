@@ -65,7 +65,7 @@ class VectorMagnitudeExample(App):
             self.ID, 
             self.email, 
             self.timestamp, 
-            str(base64.b64encode(m.digest()))
+            m.hexdigest()
             )
         
     def showQuestion(self):
