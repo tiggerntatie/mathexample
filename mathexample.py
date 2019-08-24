@@ -1,12 +1,11 @@
 # mathexample
 import sys
 imports = [
-    "https://github.com/tiggerntatie/consoleapp",
     "https://tiggerntatie.github.io/sffloat/",
     ]
 for path in imports:
     if path not in sys.path:
-    sys.path.append(path)
+        sys.path.append(path)
 
 from sffloat import sffloat, sqrt
 from consoleapp import ConsoleApp, input
