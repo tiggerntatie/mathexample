@@ -75,9 +75,9 @@ class VectorMagnitudeExample(App):
         self.generateRandomParams(code[2])
         self.email = code[1]
         if code[0] == self.ID and code[3] == self.getHash():
-            "VERIFIED"
+            return "VERIFIED"
         else:
-            "NOT VERIFIED"
+            return "NOT VERIFIED"
         
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
