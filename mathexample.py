@@ -59,7 +59,14 @@ class VectorMagnitudeExample(App):
         
     @property
     def successCode(self):
-        
+        inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
+        m = hashlib.md5(inputstr.encode('utf-8'))
+        return "{0}:{1}:{2}:{3}".format(
+            self.ID, 
+            self.email, 
+            self.timestamp, 
+            str(base64.b64encode(m.digest()))
+            )
         
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
