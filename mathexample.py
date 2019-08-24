@@ -65,7 +65,7 @@ class VectorMagnitudeExample(App):
         try:
             self.rawanswer = input("Enter your answer: ")
             self.answer = float(self.rawanswer)
-        except ValueError:
+        except ValueError, LookupError:
             self.answer = None
         
     def showAnswer(self):
