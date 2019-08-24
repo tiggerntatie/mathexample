@@ -153,22 +153,22 @@ class VectorMagnitudeExample(MathExample):
         return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
 
     def questB2(self):
-        print("And what is the square of the second component?")
+        print("Good! And what is the square of the second component?")
         self.getFloatAnswer()
         return self.correctB2().equivalent_to_float(self.answer), self.answer, self.correctB2()
 
     def questC2(self):
-        print("And the square of the third component?")
+        print("Yes :) And the square of the third component?")
         self.getFloatAnswer()
         return self.correctC2().equivalent_to_float(self.answer), self.answer, self.correctC2()
 
     def questSum(self):
-        print("Next, what is the sum of the squares?")
+        print("Awesome! Next, what is the sum of the squares?")
         self.getFloatAnswer()
         return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
 
     def questMag(self):
-        print("Finally, what is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
+        print("Just one more! What is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
         self.getFloatAnswer()
         return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
 
