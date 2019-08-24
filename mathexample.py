@@ -37,7 +37,7 @@ class MathExample(App, ABC):
             else:
                 self.generateRandomQuestion()
                 self.score = 0
-        elif self.score >= 0:
+        elif self.score >= 0 and self.levels[self.score].lfunc:
             success, answer, correct = self.levels[self.score].lfunc()
             if success:
                 self.score = self.levels[self.score].nextscore
