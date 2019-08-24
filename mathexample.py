@@ -18,7 +18,7 @@ from ggame import App
 from time import asctime, gmtime, now
 
 
-class MathExample(ABC, App):
+class MathExample(App, ABC):
 
     def __init__(self, firststate):
         super().__init__()
@@ -28,7 +28,7 @@ class MathExample(ABC, App):
     def step(self):
         if self.line == "_":
             self.getUserEmail()
-            if self.verifySuccess()
+            if self.verifySuccess():
                 self.line = "__"
             else:
                 self.line = self._firststate
