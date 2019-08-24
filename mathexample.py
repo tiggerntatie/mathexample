@@ -155,7 +155,7 @@ if __name__ == "__main__":
                     self.promptA2, 
                     self.getFloatAnswer, 
                     lambda answer: self.correctA2().equivalent_to_float(answer),
-                    None, 
+                    lambda: 0, 
                     2),
                 2: Level(
                     lambda: print("Good! And what is the square of the second component?"),
