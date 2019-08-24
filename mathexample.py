@@ -54,10 +54,6 @@ class MathExample(App, ABC):
         self.generateRandomParams()
     
     @abstractmethod
-    def main(self):
-        pass
-    
-    @abstractmethod
     def generateRandomParams(self):
         pass
 
