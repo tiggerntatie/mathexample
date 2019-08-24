@@ -19,13 +19,32 @@ from time import asctime, gmtime, now
 
 
 class MathExample(ABC, App):
-    
+
+    def __init__(self, firststate):
+        super().__init__()
+        self.line = "_"
+        self._firststate = firststate
+        
+    def step(self):
+        if self.line == "_":
+            self.getUserEmail()
+            if self.verifySuccess()
+                self.line = "__"
+            else:
+                self.line = self._firststate
+        else:
+            self.main()
+        
     def generateRandomQuestion(self):
         time = now()
         self.timestamp = str(time)
         seed(time)
         self.generateRandomParams()
-        
+    
+    @abstractmethod
+    def main(self):
+        pass
+    
     @abstractmethod
     def generateRandomParams(self):
         pass
@@ -39,28 +58,10 @@ class MathExample(ABC, App):
         inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
         m = hashlib.md5(inputstr.encode('utf-8'))
         return m.hexdigest()        
-    
 
-class VectorMagnitudeExample(MathExample):
-    
-    question = "Compute the magnitude of this vector: <{0},{1},{2}>."
-    ID = "VM01"
-    
-"""    def __init__(self):
-        self.answer = None
-        self.paramsf = 2
-        super().__init__()
-        self.line = "start"
-"""
-    def generateRandomParams(self):
-        self.a = sffloat(randint(2,8), self.paramsf)
-        self.b = sffloat(randint(2,8), self.paramsf)
-        self.c = sffloat(randint(2,8), self.paramsf)
-    
-    @property
-    def correctAnswer(self):
-        return sqrt(self.a**2 + self.b**2 + self.c**2)
-    
+    def getUserEmail(self):
+        self.email = input("Enter your email name (without @hanovernorwichschools.org): ")
+        
     @property
     def successCode(self):
         return "{0}:{1}:{2}:{3}".format(
@@ -70,20 +71,46 @@ class VectorMagnitudeExample(MathExample):
             self.getHash()
             )
         
-    def verifySuccess(self, code):
-        seed(int(self.timestamp))
-        self.generateRandomParams(code[2])
-        self.email = code[1]
-        if code[0] == self.ID and code[3] == self.getHash():
-            return "VERIFIED"
+    def isSuccessCode(self, code):
+        checkval = code.split(':')
+        if len(checkval) == 4:
+            return checkval
         else:
-            return "NOT VERIFIED"
-        
+            return False
+            
+    def verifySuccess(self):
+        code = self.isSuccessCode(self.email)
+        if code:
+            seed(int(self.timestamp))
+            self.generateRandomParams(code[2])
+            self.email = code[1]
+            if code[0] == self.ID and code[3] == self.getHash():
+                print("VERIFIED")
+            else:
+                print("NOT VERIFIED")
+            return True
+        else:
+            return False
+
+class VectorMagnitudeExample(MathExample):
+    
+    question = "Compute the magnitude of this vector: <{0},{1},{2}>."
+    ID = "VM01"
+    
+    def __init__(self):
+        super().__init__("askquestion")
+
+    def generateRandomParams(self):
+        self.a = sffloat(randint(2,8), 2)
+        self.b = sffloat(randint(2,8), 2)
+        self.c = sffloat(randint(2,8), 2)
+    
+    @property
+    def correctAnswer(self):
+        return sqrt(self.a**2 + self.b**2 + self.c**2)
+    
     def showQuestion(self):
         print(self.question.format(self.a, self.b, self.c))
-        
-    def getUserEmail(self):
-        self.email = input("Enter your email name (without @hanovernorwichschools.org): ")
         
     def getUserAnswer(self):
         try:
@@ -96,29 +123,8 @@ class VectorMagnitudeExample(MathExample):
         print("Your answer is: ", self.answer)
         print("The correct answer is: ", self.correctAnswer)
         
-    def userInteract(self):
-        while not self.answer or not self.correctAnswer.equivalent_to_float(self.answer):
-            self.generateRandomQuestion()
-            self.showQuestion()
-            self.getUserAnswer()
-    
-        self.actions = [
-            self.generateRandomQuestion,
-            self.showQuestion,
-            self.getUserAnswer,
-            self.showAnswer]
-        self.x = 0
-
-    def step(self):
-        if self.line == "start":
-            self.getUserEmail()
-            checkval = self.email.split(':')
-            if len(checkval) == 4:
-                print(self.verifySuccess(checkval))
-                self.line = "finish"
-            else:
-                self.line = "askquestion"
-        elif self.line == "askquestion":
+    def main(self):
+        if self.line == "askquestion":
             self.generateRandomQuestion()
             self.showQuestion()
             self.line = "input"
