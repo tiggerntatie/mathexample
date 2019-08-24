@@ -162,13 +162,32 @@ if __name__ == "__main__":
                     self.getFloatAnswer, 
                     lambda answer: self.correctA2().equivalent_to_float(answer),
                     None, 
-                    2)
-                0: Level(self.questA2, None, 2),
-                2: Level(self.questB2, self.correctA2, 4),
-                4: Level(self.questC2, self.correctB2, 6),
-                6: Level(self.questSum, self.correctC2, 8),
-                8: Level(self.questMag, self.correctSum, 10),
-                10: Level(None, self.correctMag, None),
+                    2),
+                2: Level(
+                    lambda: print("Good! And what is the square of the second component?"),
+                    self.getFloatAnswer,
+                    lambda answer: self.correctB2().equivalent_to_float(answer),
+                    self.correctA2,
+                    4),
+                4: Level(
+                    lambda: print("Yes :) And the square of the third component?"),
+                    self.getFloatAnswer,
+                    lambda answer: self.correctC2().equivalent_to_float(answer),
+                    self.correctB2,
+                    6),
+                6: Level(
+                    lambda: print("Awesome! Next, what is the sum of the squares?"),
+                    self.getFloatAnswer,
+                    lambda answer: self.correctSum().equivalent_to_float(answer),
+                    self.correctC2,
+                    8),
+                8: Level(
+                    lambda: print("Just one more! What is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c)),
+                    self.getFloatAnswer,
+                    lambda answer: self.correctMag().equivalent_to_float(answer),
+                    self.correctSum,
+                    10),
+                10: Level(None, None, None self.correctMag, None),
             }
     
         def generateRandomParams(self):
@@ -195,25 +214,7 @@ if __name__ == "__main__":
             print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
             print("First, what is the square of the first component?")
 
-        def questB2(self):
-            print("Good! And what is the square of the second component?")
-            self.getFloatAnswer()
-            return self.correctB2().equivalent_to_float(self.answer), self.answer, self.correctB2()
-    
-        def questC2(self):
-            print("Yes :) And the square of the third component?")
-            self.getFloatAnswer()
-            return self.correctC2().equivalent_to_float(self.answer), self.answer, self.correctC2()
-    
-        def questSum(self):
-            print("Awesome! Next, what is the sum of the squares?")
-            self.getFloatAnswer()
-            return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
-    
-        def questMag(self):
-            print("Just one more! What is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
-            self.getFloatAnswer()
-            return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
+
 
     myapp = VectorMagnitudeExample()
     myapp.run()
