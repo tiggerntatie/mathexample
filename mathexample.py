@@ -98,8 +98,8 @@ class MathExample(App, ABC):
 
     def getHash(self):
         inputstr = self.ID + self.email + str(self.score) + self.timestamp + str(self.levels[self.score].cfunc())
-        m = hashlib.md5(inputstr.encode('utf-8'))
-        return m.hexdigest()        
+        m = hashlib.sha256(inputstr.encode('utf-8'))
+        return m.hexdigest()[:9]        
 
     def getUserEmail(self):
         print("Enter your email name")
