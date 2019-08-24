@@ -15,19 +15,6 @@ from random import randint, seed
 from ggame import App
 from time import asctime, gmtime, now
 
-"""
-m = hashlib.md5("what is up dog".encode('utf-8'))
-
-or
-
-m = hashlib.sha256("what is up dog".encode('utf-8'))
-
-
->>> import base64
->>> base64.b64encode(m.digest())
-b'gL+TIAkoFczEN0ZC4zlvbw=='
-"""
-
 
 class VectorMagnitudeExample(App):
     
@@ -39,20 +26,20 @@ class VectorMagnitudeExample(App):
         self.paramsf = 2
         super().__init__()
         self.line = "start"
-        #self.generateRandomQuestion()
 
     def generateRandomQuestion(self):
-        seedtime = now()
-        self.generateRandomParams(str(seedtime))
+        time = now()
+        self.timestamp = str(time)
+        seed(time)
+        self.generateRandomParams()
 
-
-    def generateRandomParams(self, seedstr):
-        self.timestamp = seedstr
-        seed(int(seedstr))
+    # must override
+    def generateRandomParams(self):
         self.a = sffloat(randint(2,8), self.paramsf)
         self.b = sffloat(randint(2,8), self.paramsf)
         self.c = sffloat(randint(2,8), self.paramsf)
     
+    # must override
     @property
     def correctAnswer(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
@@ -72,6 +59,7 @@ class VectorMagnitudeExample(App):
             )
         
     def verifySuccess(self, code):
+        seed(int(self.timestamp))
         self.generateRandomParams(code[2])
         self.email = code[1]
         if code[0] == self.ID and code[3] == self.getHash():
@@ -149,5 +137,6 @@ if __name__ == "__main__":
     myapp = VectorMagnitudeExample()
     myapp.run()
     #myapp.userInteract()
-    
+    # VM01:eric.dennison:1566665625116:27ba14ec89ba5bbf838c3d16230a3039
+    # VM01:eric.dennison:1566666259794:5c7940b9fdad4a516cb473357c33f1ea
     
