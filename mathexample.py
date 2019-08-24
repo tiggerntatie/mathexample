@@ -60,7 +60,8 @@ class MathExample(App, ABC):
         return m.hexdigest()        
 
     def getUserEmail(self):
-        self.email = input("Enter your email name (without @hanovernorwichschools.org): ")
+        print("Enter your email name")
+        self.email = input("(without @hanovernorwichschools.org): ")
         
     @property
     def successCode(self):
