@@ -3,6 +3,7 @@ import sys
 import hashlib
 import base64
 from abc import ABC, abstractmethod
+from collections import namedtuple
 
 imports = [
     "https://tiggerntatie.github.io/sffloat/",
@@ -17,24 +18,35 @@ from random import randint, seed
 from ggame import App
 from time import asctime, gmtime, now
 
+# lfunc is the prompt for the level,
+# cfunc returns correct value for this level
+# nextscore is the score received for success
+Level = namedtuple('Level', 'lfunc cfunc nextscore')
 
 class MathExample(App, ABC):
 
-    def __init__(self, firststate):
+    def __init__(self):
         super().__init__()
-        self.line = "_"
-        self._firststate = firststate
+        self.score = -1
         
     def step(self):
-        if self.line == "_":
+        if self.score == -1:
             self.getUserEmail()
             if self.verifySuccess():
-                self.line = "__"
+                self.score = -2
             else:
                 self.line = self._firststate
-        else:
-            self.main()
-        
+        elif self.score >= 0:
+            success, answer, correct = self.levels[self.score].lfunc()
+            if success:
+                self.score = self.levels[self.score].nextscore
+            else:
+                print("I'm sorry. You answered {0}".format(answer))
+                print("The correct answer is {0}".format(correct))
+                print("Try again!")
+                self.score = -2
+                
+
     def generateRandomQuestion(self):
         time = now()
         self.timestamp = str(time)
@@ -49,10 +61,12 @@ class MathExample(App, ABC):
     def generateRandomParams(self):
         pass
 
-    @abstractmethod
-    @property
-    def correctAnswer(self):
-        pass
+    def getFloatAnswer(self):
+        try:
+            self.rawanswer = input("Enter your answer: ")
+            self.answer = float(self.rawanswer)
+        except (ValueError, LookupError):
+            self.answer = None
 
     def getHash(self):
         inputstr = self.ID + self.email + self.timestamp + str(self.correctAnswer)
@@ -65,16 +79,17 @@ class MathExample(App, ABC):
         
     @property
     def successCode(self):
-        return "{0}:{1}:{2}:{3}".format(
+        return "{0}:{1}:{2}:{3}:{4}".format(
             self.ID, 
             self.email, 
+            self.score,
             self.timestamp, 
             self.getHash()
             )
         
     def isSuccessCode(self, code):
         checkval = code.split(':')
-        if len(checkval) == 4:
+        if len(checkval) == 5:
             return checkval
         else:
             return False
@@ -82,11 +97,12 @@ class MathExample(App, ABC):
     def verifySuccess(self):
         code = self.isSuccessCode(self.email)
         if code:
-            self.timestamp = code[2]
-            seed(int(code[2]))
+            self.timestamp = code[3]
+            seed(int(code[3]))
             self.generateRandomParams()
+            self.score = code[2]
             self.email = code[1]
-            if code[0] == self.ID and code[3] == self.getHash():
+            if code[0] == self.ID and code[4] == self.getHash():
                 print("VERIFIED")
             else:
                 print("NOT VERIFIED")
@@ -100,58 +116,62 @@ class VectorMagnitudeExample(MathExample):
     ID = "VM01"
     
     def __init__(self):
-        super().__init__("askquestion")
+        super().__init__()
+        self.levels = {
+            0: Level(self.questA2, None, 2),
+            2: Level(self.questB2, self.correctA2, 4),
+            4: Level(self.questC2, self.correctB2, 6),
+            6: Level(self.questSum, self.correctC2, 8),
+            8: Level(self.questAll, self.correctSum, 10),
+            10: Level(None, self.correctMag, None),
+        }
 
     def generateRandomParams(self):
         self.a = sffloat(randint(2,8), 2)
         self.b = sffloat(randint(2,8), 2)
         self.c = sffloat(randint(2,8), 2)
     
-    @property
-    def correctAnswer(self):
+    def correctA2(self):
+        return self.a**2
+        
+    def correctB2(self):
+        return self.b**2
+        
+    def correctC2(self):
+        return self.c**2
+
+    def correctSum(self):
+        return self.a**2 + self.b**2 + self.c**2
+        
+    def correctAll(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
-    
-    def showQuestion(self):
-        print(self.question.format(self.a, self.b, self.c))
-        
-    def getUserAnswer(self):
-        try:
-            self.rawanswer = input("Enter your answer: ")
-            self.answer = float(self.rawanswer)
-        except (ValueError, LookupError):
-            self.answer = None
-        
-    def showAnswer(self):
-        print("Your answer is: ", self.answer)
-        print("The correct answer is: ", self.correctAnswer)
-        
-    def main(self):
-        if self.line == "askquestion":
-            self.generateRandomQuestion()
-            self.showQuestion()
-            self.line = "input"
-        elif self.line == "input":
-            self.getUserAnswer()
-            if self.answer is None:
-                self.line = "quit"
-            elif self.correctAnswer.equivalent_to_float(self.answer):
-                self.line = "correct"
-            else:
-                self.line = "incorrect"
-            return
-        elif self.line == "correct":
-            print("Awesome! {0} is the correct answer.".format(self.correctAnswer))
-            print("Your success code is {0}".format(self.successCode))
-            self.line = "finished"
-        elif self.line == "incorrect":
-            print("I'm sorry. You answered {0}.".format(self.answer))
-            print("The correct answer is {0}.".format(self.correctAnswer))
-            print("Try again!")
-            self.line = "askquestion"
-        elif self.line == "quit":
-            print("See you later!")
-            self.line = "finished"
-            
+
+    def questA2(self):
+        print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
+        print("First, what is the square of the first component?")
+        self.getFloatAnswer()
+        return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
+
+    def questB2(self):
+        print("And what is the square of the second component?")
+        self.getFloatAnswer()
+        return self.correctB2().equivalent_to_float(self.answer), self.answer, self.correctB2()
+
+    def questC2(self):
+        print("And the square of the third component?")
+        self.getFloatAnswer()
+        return self.correctC2().equivalent_to_float(self.answer), self.answer, self.correctC2()
+
+    def questSum(self):
+        print("Next, what is the sum of the squares?")
+        self.getFloatAnswer()
+        return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
+
+    def questMag(self):
+        print("Finally, what is the magnitude of the vector?")
+        self.getFloatAnswer()
+        return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
+
 
 if __name__ == "__main__":
     myapp = VectorMagnitudeExample()
