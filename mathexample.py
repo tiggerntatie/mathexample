@@ -21,7 +21,7 @@ from time import asctime, gmtime, now
 # lfunc is the prompt for the level,
 # cfunc returns correct value for this level
 # nextscore is the score received for success
-Level = namedtuple('Level', 'lquest cfunc nextscore')
+Level = namedtuple('Level', 'lprompt input test cfunc nextscore')
 
 class Question:
     
@@ -57,14 +57,14 @@ class MathExample(App, ABC):
         elif self.score >= 0:
             if self.levels[self.score].lquest:
                 if self._state == "prompt":
-                    self.levels[self.score].lquest.prompt()
+                    self.levels[self.score].lprompt()
                     self._state = "input"
                 elif self._state == "input":
-                    self.answer = self.levels[self.score].lquest.getinput()
+                    self.answer = self.levels[self.score].input()
                     self._state = "eval"
                 elif self._state == "eval":
                     self._state = "prompt"
-                    success = self.levels[self.score].lquest.iscorrect(self.answer)
+                    success = self.levels[self.score].test(self.answer)
                     if success:
                         self.score = self.levels[self.score].nextscore
                     else:
@@ -157,6 +157,12 @@ if __name__ == "__main__":
                 lambda answer: self.correctA2().equivalent_to_float(answer)
             )
             self.levels = {
+                0: Level(
+                    self.promptA2, 
+                    self.getFloatAnswer, 
+                    lambda answer: self.correctA2().equivalent_to_float(answer),
+                    None, 
+                    2)
                 0: Level(self.questA2, None, 2),
                 2: Level(self.questB2, self.correctA2, 4),
                 4: Level(self.questC2, self.correctB2, 6),
@@ -185,12 +191,10 @@ if __name__ == "__main__":
         def correctMag(self):
             return sqrt(self.a**2 + self.b**2 + self.c**2)
     
-        """        def questA2(self):
+        def promptA2(self):
             print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
             print("First, what is the square of the first component?")
-            self.getFloatAnswer()
-            return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
-        """    
+
         def questB2(self):
             print("Good! And what is the square of the second component?")
             self.getFloatAnswer()
