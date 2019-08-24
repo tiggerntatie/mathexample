@@ -45,10 +45,10 @@ class MathExample(App, ABC):
                 else:
                     print("I'm sorry. You answered {0}".format(answer))
                     print("The correct answer is {0}".format(correct))
-                    print("Your partial success code is: {0}".format(self.successCode)
+                    print("Your partial success code is: {0}".format(self.successCode))
                     self.score = -2
             else:
-                print("Congratulations! Your success code is: {0}".format(self.successCode)
+                print("Congratulations! Your success code is: {0}".format(self.successCode))
                 self.score = -2
 
     def generateRandomQuestion(self):
