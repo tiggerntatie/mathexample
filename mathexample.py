@@ -1,10 +1,15 @@
 # mathexample
 import sys
-sffloatpath = "https://tiggerntatie.github.io/sffloat/"
-if sffloatpath not in sys.path:
-    sys.path.append(sffloatpath)
+imports = [
+    "https://github.com/tiggerntatie/consoleapp",
+    "https://tiggerntatie.github.io/sffloat/",
+    ]
+for path in imports:
+    if path not in sys.path:
+    sys.path.append(path)
 
 from sffloat import sffloat, sqrt
+from consoleapp import ConsoleApp, input
 from browser import window
 from random import randint, seed
 from ggame import App
