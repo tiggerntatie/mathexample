@@ -69,7 +69,6 @@ class MathExample(App, ABC):
             self.answer = None
 
     def getHash(self):
-        print(self.levels)
         inputstr = self.ID + self.email + str(self.score) + self.timestamp + str(self.levels[self.score].cfunc())
         m = hashlib.md5(inputstr.encode('utf-8'))
         return m.hexdigest()        
@@ -101,7 +100,7 @@ class MathExample(App, ABC):
             self.timestamp = code[3]
             seed(int(code[3]))
             self.generateRandomParams()
-            self.score = code[2]
+            self.score = int(code[2])
             self.email = code[1]
             if code[0] == self.ID and code[4] == self.getHash():
                 print("VERIFIED")
