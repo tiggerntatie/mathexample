@@ -81,7 +81,7 @@ class MathExample(App, ABC):
     def verifySuccess(self):
         code = self.isSuccessCode(self.email)
         if code:
-            seed(int(self.timestamp))
+            seed(int(code[2])
             self.generateRandomParams(code[2])
             self.email = code[1]
             if code[0] == self.ID and code[3] == self.getHash():
