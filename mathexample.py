@@ -138,7 +138,7 @@ class VectorMagnitudeExample(MathExample):
     def correctSum(self):
         return self.a**2 + self.b**2 + self.c**2
         
-    def correctAll(self):
+    def correctMag(self):
         return sqrt(self.a**2 + self.b**2 + self.c**2)
 
     def questA2(self):
