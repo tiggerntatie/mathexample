@@ -37,16 +37,19 @@ class MathExample(App, ABC):
             else:
                 self.generateRandomQuestion()
                 self.score = 0
-        elif self.score >= 0 and self.levels[self.score].lfunc:
-            success, answer, correct = self.levels[self.score].lfunc()
-            if success:
-                self.score = self.levels[self.score].nextscore
+        elif self.score >= 0:
+            if self.levels[self.score].lfunc:
+                success, answer, correct = self.levels[self.score].lfunc()
+                if success:
+                    self.score = self.levels[self.score].nextscore
+                else:
+                    print("I'm sorry. You answered {0}".format(answer))
+                    print("The correct answer is {0}".format(correct))
+                    print("Your partial success code is: {0}".format(self.successCode()))
+                    self.score = -2
             else:
-                print("I'm sorry. You answered {0}".format(answer))
-                print("The correct answer is {0}".format(correct))
-                print("Try again!")
+                print("Congratulations! Your success code is: {0}".format(self.successCode()))
                 self.score = -2
-                
 
     def generateRandomQuestion(self):
         time = now()
