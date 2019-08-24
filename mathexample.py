@@ -21,13 +21,30 @@ from time import asctime, gmtime, now
 # lfunc is the prompt for the level,
 # cfunc returns correct value for this level
 # nextscore is the score received for success
-Level = namedtuple('Level', 'lfunc cfunc nextscore')
+Level = namedtuple('Level', 'lquest cfunc nextscore')
+
+class Question:
+    
+    def __init__(self, prompt, inputfunc, testfunc):
+        self._prompt = prompt
+        self._inputfunc = inputfunc
+        self._testfunc = testfunc
+        
+    def prompt(self):
+        print(self._prompt)
+        
+    def getinput(self):
+        self.inputfunc()
+        
+    def iscorrect(self):
+        return self.testfunc()
 
 class MathExample(App, ABC):
 
     def __init__(self):
         super().__init__()
         self.score = -1
+        self._state = "prompt"
         
     def step(self):
         if self.score == -1:
@@ -38,16 +55,24 @@ class MathExample(App, ABC):
                 self.generateRandomQuestion()
                 self.score = 0
         elif self.score >= 0:
-            if self.levels[self.score].lfunc:
-                success, answer, correct = self.levels[self.score].lfunc()
-                if success:
-                    self.score = self.levels[self.score].nextscore
-                else:
-                    print("I'm sorry. You answered {0}".format(answer))
-                    print("The correct answer is {0}".format(correct))
-                    print("Your partial success code is: {0}".format(self.successCode))
-                    print("Try again :)")
-                    self.score = -2
+            if self.levels[self.score].lquest:
+                if self.state == "prompt":
+                    self.levels[self.score].lquest.prompt()
+                    self.state = "input"
+                elif self.state == "input":
+                    self.answer = self.levels[self.score].lquest.getinput()
+                    self.state = "eval"
+                elif self.state == "eval":
+                    success = self.levels[self.score].lquest.iscorrect(self.answer)
+                    if success:
+                        self.score = self.levels[self.score].nextscore
+                    else:
+                        correct = self.levels[self.levels[self.score].nextscore].cfunc()
+                        print("I'm sorry. You answered {0}".format(self.answer))
+                        print("The correct answer is {0}".format(correct))
+                        print("Your partial success code is: {0}".format(self.successCode))
+                        print("Try again :)")
+                        self.score = -2
             else:
                 print("Congratulations! Your success code is: {0}".format(self.successCode))
                 self.score = -2
@@ -65,9 +90,9 @@ class MathExample(App, ABC):
     def getFloatAnswer(self):
         try:
             self.rawanswer = input("Enter your answer: ")
-            self.answer = float(self.rawanswer)
+            return = float(self.rawanswer)
         except (ValueError, LookupError):
-            self.answer = None
+            return None
 
     def getHash(self):
         inputstr = self.ID + self.email + str(self.score) + self.timestamp + str(self.levels[self.score].cfunc())
@@ -119,6 +144,13 @@ if __name__ == "__main__":
     class VectorMagnitudeExample(MathExample):
         
         ID = "VM01"
+        
+        questA2 = Question(
+            ("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
+            "First, what is the square of the first component?"),
+            self.getFloatAnswer,
+            lambda answer: self.correctA2().equivalent_to_float(answer)
+        )
         
         def __init__(self):
             super().__init__()
