@@ -46,6 +46,7 @@ class MathExample(App, ABC):
                     print("I'm sorry. You answered {0}".format(answer))
                     print("The correct answer is {0}".format(correct))
                     print("Your partial success code is: {0}".format(self.successCode))
+                    print("Try again :)")
                     self.score = -2
             else:
                 print("Congratulations! Your success code is: {0}".format(self.successCode))
