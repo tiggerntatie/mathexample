@@ -111,72 +111,74 @@ class MathExample(App, ABC):
         else:
             return False
 
-class VectorMagnitudeExample(MathExample):
-    
-    ID = "VM01"
-    
-    def __init__(self):
-        super().__init__()
-        self.levels = {
-            0: Level(self.questA2, None, 2),
-            2: Level(self.questB2, self.correctA2, 4),
-            4: Level(self.questC2, self.correctB2, 6),
-            6: Level(self.questSum, self.correctC2, 8),
-            8: Level(self.questMag, self.correctSum, 10),
-            10: Level(None, self.correctMag, None),
-        }
 
-    def generateRandomParams(self):
-        self.a = sffloat(randint(2,8), 2)
-        self.b = sffloat(randint(2,8), 2)
-        self.c = sffloat(randint(2,8), 2)
-    
-    def correctA2(self):
-        return self.a**2
-        
-    def correctB2(self):
-        return self.b**2
-        
-    def correctC2(self):
-        return self.c**2
-
-    def correctSum(self):
-        return self.a**2 + self.b**2 + self.c**2
-        
-    def correctMag(self):
-        return sqrt(self.a**2 + self.b**2 + self.c**2)
-
-    def questA2(self):
-        print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
-        print("First, what is the square of the first component?")
-        self.getFloatAnswer()
-        return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
-
-    def questB2(self):
-        print("Good! And what is the square of the second component?")
-        self.getFloatAnswer()
-        return self.correctB2().equivalent_to_float(self.answer), self.answer, self.correctB2()
-
-    def questC2(self):
-        print("Yes :) And the square of the third component?")
-        self.getFloatAnswer()
-        return self.correctC2().equivalent_to_float(self.answer), self.answer, self.correctC2()
-
-    def questSum(self):
-        print("Awesome! Next, what is the sum of the squares?")
-        self.getFloatAnswer()
-        return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
-
-    def questMag(self):
-        print("Just one more! What is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
-        self.getFloatAnswer()
-        return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
 
 
 if __name__ == "__main__":
+
+    class VectorMagnitudeExample(MathExample):
+        
+        ID = "VM01"
+        
+        def __init__(self):
+            super().__init__()
+            self.levels = {
+                0: Level(self.questA2, None, 2),
+                2: Level(self.questB2, self.correctA2, 4),
+                4: Level(self.questC2, self.correctB2, 6),
+                6: Level(self.questSum, self.correctC2, 8),
+                8: Level(self.questMag, self.correctSum, 10),
+                10: Level(None, self.correctMag, None),
+            }
+    
+        def generateRandomParams(self):
+            self.a = sffloat(randint(2,8), 2)
+            self.b = sffloat(randint(2,8), 2)
+            self.c = sffloat(randint(2,8), 2)
+        
+        def correctA2(self):
+            return self.a**2
+            
+        def correctB2(self):
+            return self.b**2
+            
+        def correctC2(self):
+            return self.c**2
+    
+        def correctSum(self):
+            return self.a**2 + self.b**2 + self.c**2
+            
+        def correctMag(self):
+            return sqrt(self.a**2 + self.b**2 + self.c**2)
+    
+        def questA2(self):
+            print("Compute the magnitude of this vector: <{0},{1},{2}>.".format(self.a, self.b, self.c))
+            print("First, what is the square of the first component?")
+            self.getFloatAnswer()
+            return self.correctA2().equivalent_to_float(self.answer), self.answer, self.correctA2()
+    
+        def questB2(self):
+            print("Good! And what is the square of the second component?")
+            self.getFloatAnswer()
+            return self.correctB2().equivalent_to_float(self.answer), self.answer, self.correctB2()
+    
+        def questC2(self):
+            print("Yes :) And the square of the third component?")
+            self.getFloatAnswer()
+            return self.correctC2().equivalent_to_float(self.answer), self.answer, self.correctC2()
+    
+        def questSum(self):
+            print("Awesome! Next, what is the sum of the squares?")
+            self.getFloatAnswer()
+            return self.correctSum().equivalent_to_float(self.answer), self.answer, self.correctSum()
+    
+        def questMag(self):
+            print("Just one more! What is the magnitude of the vector <{0},{1},{2}>?".format(self.a, self.b, self.c))
+            self.getFloatAnswer()
+            return self.correctMag().equivalent_to_float(self.answer), self.answer, self.correctMag()
+
     myapp = VectorMagnitudeExample()
     myapp.run()
-    #myapp.userInteract()
-    # VM01:eric.dennison:1566665625116:27ba14ec89ba5bbf838c3d16230a3039
-    # VM01:eric.dennison:1566666259794:5c7940b9fdad4a516cb473357c33f1ea
+
+    # 
     
