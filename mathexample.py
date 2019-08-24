@@ -31,13 +31,13 @@ class Question:
         self._testfunc = testfunc
         
     def prompt(self):
-        print(self._prompt)
+        self._prompt()
         
     def getinput(self):
-        self.inputfunc()
+        self._inputfunc()
         
     def iscorrect(self):
-        return self.testfunc()
+        return self._testfunc()
 
 class MathExample(App, ABC):
 
@@ -146,15 +146,15 @@ if __name__ == "__main__":
         
         ID = "VM01"
         
-        questA2 = Question(
-            ("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
-            "First, what is the square of the first component?"),
-            self.getFloatAnswer,
-            lambda answer: self.correctA2().equivalent_to_float(answer)
-        )
         
         def __init__(self):
             super().__init__()
+            self.questA2 = Question(
+                lambda :("Compute the magnitude of this vector: <{0},{1},{2}>.\n".format(self.a, self.b, self.c) +
+                "First, what is the square of the first component?"),
+                self.getFloatAnswer,
+                lambda answer: self.correctA2().equivalent_to_float(answer)
+            )
             self.levels = {
                 0: Level(self.questA2, None, 2),
                 2: Level(self.questB2, self.correctA2, 4),
