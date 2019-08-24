@@ -123,7 +123,7 @@ class VectorMagnitudeExample(MathExample):
         
     def showAnswer(self):
         print("Your answer is: ", self.answer)
-        print("The correct answer is: ", self.correctAnswer)
+        print("The correct answer is: ", self.correctAnswer
         
     def main(self):
         if self.line == "askquestion":
